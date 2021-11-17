@@ -1,13 +1,21 @@
 package ee.hansabIT.restcontroller;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ee.hansabIT.dto.CarDTO;
+import ee.hansabIT.dto.UserDTO;
+import ee.hansabIT.entity.Car;
 import ee.hansabIT.entity.User;
 import ee.hansabIT.service.UserService;
 
@@ -15,21 +23,68 @@ import ee.hansabIT.service.UserService;
 @RequestMapping("/users")
 public class UserController {
 	
-	private final UserService service;
+	private final UserService userService;
+	private final ModelMapper mapper;
 	
 	
 	@Autowired
-	public UserController(UserService service) {
-		this.service = service;
+	public UserController(UserService userService, ModelMapper mapper) {
+		this.userService = userService;
+		this.mapper = mapper;
 	}
 	
 	@GetMapping
-	public List<User> getAllUsers(){
-		return this.service.getAllUsers();
+	public ResponseEntity<List<UserDTO>> getAllUsers(){
+		List<User> users = this.userService.getAllUsers();
+		
+		if(users.isEmpty()) {
+			return ResponseEntity
+					.status(HttpStatus.NO_CONTENT)
+					.body(null);
+		}
+		List<UserDTO> usersDTO = users
+				.stream()
+				.map(user -> mapper.map(user, UserDTO.class))
+				.collect(Collectors.toList());
+		
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(usersDTO);
 	}
 
 	@GetMapping("/{id}")
-	public User getUserName(@PathVariable Long id) {
-		return service.getUserById(id);
+	public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+		try {
+			User user = userService.getUserById(id);
+			UserDTO userDTO = mapper.map(user, UserDTO.class);
+			return ResponseEntity
+					.status(HttpStatus.OK)
+					.body(userDTO);
+		} catch (RuntimeException e) {
+			return ResponseEntity
+					.status(HttpStatus.NO_CONTENT)
+					.header("error", "No such user" )
+					.body(null);
+		}
+	
+	}
+	
+	@GetMapping("/{id}/cars")
+	public ResponseEntity<Set<CarDTO>> getUserCars(@PathVariable Long id){
+		try {
+			Set<Car> cars = userService.getUserById(id).getCars();
+			Set<CarDTO> carsDTO = cars
+					.stream()
+					.map(car -> mapper.map(car, CarDTO.class))
+					.collect(Collectors.toSet());
+			return ResponseEntity
+					.status(HttpStatus.OK)
+					.body(carsDTO);
+		} catch (RuntimeException e) {
+			return ResponseEntity
+					.status(HttpStatus.NO_CONTENT)
+					.header("error", "No such user")
+					.body(null);
+		}
 	}
 }

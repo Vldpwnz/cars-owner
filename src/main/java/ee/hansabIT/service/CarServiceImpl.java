@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ee.hansabIT.entity.Car;
 import ee.hansabIT.repository.CarRepository;
 
+@Service
 public class CarServiceImpl implements CarService {
 	
 	private final CarRepository carRepository;
@@ -19,12 +21,12 @@ public class CarServiceImpl implements CarService {
 	}
 
 	@Override
-	public List<Car> findAll() {
+	public List<Car> getAllCars() {
 		return carRepository.findAll();
 	}
 
 	@Override
-	public Car findById(final Long id) {
+	public Car getCarById(final Long id) {
 		Optional<Car> result = carRepository.findById(id);
 		Car car = null;
 		

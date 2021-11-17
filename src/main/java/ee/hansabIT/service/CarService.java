@@ -6,6 +6,6 @@ import ee.hansabIT.entity.Car;
 
 public interface CarService {
 	
-	public List<Car> findAll();
-	public Car findById(Long id);
+	public List<Car> getAllCars();
+	public Car getCarById(Long id);
 }
