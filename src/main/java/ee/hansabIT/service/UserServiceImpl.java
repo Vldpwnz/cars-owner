@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ee.hansabIT.entity.User;
@@ -19,8 +20,6 @@ public class UserServiceImpl implements UserService {
 	public UserServiceImpl(UserRepository repository) {
 		this.userRepository = repository;
 	}
-
-
 
 	@Override
 	public User getUserById(final Long id) {
@@ -38,9 +37,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getAllUsers() {
+	public List<User> getUserByName(String name, Pageable pageble) {
 		
-		return this.userRepository.findAll();
+		return this.userRepository.findByName(name, pageble);
 	}
 	
 	

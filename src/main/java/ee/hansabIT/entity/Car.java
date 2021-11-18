@@ -10,7 +10,8 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
+
+@Entity(name = "car")
 public class Car {
 
 	@Id

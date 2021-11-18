@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ee.hansabIT.entity.Car;
@@ -21,11 +22,6 @@ public class CarServiceImpl implements CarService {
 	}
 
 	@Override
-	public List<Car> getAllCars() {
-		return carRepository.findAll();
-	}
-
-	@Override
 	public Car getCarById(final Long id) {
 		Optional<Car> result = carRepository.findById(id);
 		Car car = null;
@@ -36,6 +32,11 @@ public class CarServiceImpl implements CarService {
 			throw new RuntimeException("Car doesn't exist with such id : " + id);
 		}
 		return car;
+	}
+
+	@Override
+	public List<Car> getCarByNumberPlate(String numberPlate, Pageable pageble) {
+		return carRepository.findByNumberPlate(numberPlate, pageble);
 	}
 	
 	

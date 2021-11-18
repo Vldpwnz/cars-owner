@@ -1,17 +1,14 @@
 package ee.hansabIT.restcontroller;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import ee.hansabIT.dto.CarDTO;
 import ee.hansabIT.dto.UserDTO;
@@ -34,8 +31,14 @@ public class UserController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<UserDTO>> getAllUsers(){
-		List<User> users = this.userService.getAllUsers();
+	public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam("find") Optional<String> name,
+													 @RequestParam("sort") Optional<String> sort,
+													 @RequestParam("page") Optional<Integer> page,
+													 @RequestParam(required = false, defaultValue = "ASC") String order){
+		List<User> users = this.userService
+				.getUserByName(name.orElse("_"),
+						PageRequest.of(page.orElse(0),10,
+		                        Sort.Direction.fromString(order), sort.orElse("name")));
 		
 		if(users.isEmpty()) {
 			return ResponseEntity
