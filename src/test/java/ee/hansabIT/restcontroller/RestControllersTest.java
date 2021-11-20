@@ -34,7 +34,7 @@ public class RestControllersTest {
 	@DisplayName("Should list all succesful responses for car's calls")
 	public void getSuccesfulResponsesForCarsCalls() throws Exception {
 		
-		when(carService.getCarBySearchField("_", PageRequest.of(0,10,
+		when(carService.getCarBySearchField("_", PageRequest.of(0,5,
 				Sort.Direction.fromString("asc"), "id")))
 		.thenReturn(Arrays.asList(new Car(), new Car()));
 		
