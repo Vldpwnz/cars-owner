@@ -17,6 +17,7 @@ import ee.hansabIT.entity.User;
 import ee.hansabIT.service.UserService;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/users")
 public class UserController {
 	

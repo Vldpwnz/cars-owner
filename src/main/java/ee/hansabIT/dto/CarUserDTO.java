@@ -1,28 +1,26 @@
 package ee.hansabIT.dto;
 
-import java.util.Set;
-
-import ee.hansabIT.entity.User;
-
 public class CarUserDTO {
 
-	private Set<CarDTO> carsDTO;
-	private User user;
+	private CarDTO carDTO;
+	private UserDTO userDTO;
 	
 
-	public User getUser() {
-		return user;
+	public UserDTO getUser() {
+		return userDTO;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(UserDTO userDTO) {
+		this.userDTO = userDTO;
 	}
 
-	public Set<CarDTO> getCarsDTO() {
-		return carsDTO;
+	public CarDTO getCar() {
+		return carDTO;
 	}
 
-	public void setCarsDTO(Set<CarDTO> carsDTO) {
-		this.carsDTO = carsDTO;
+	public void setCar(CarDTO carDTO) {
+		this.carDTO = carDTO;
 	}
+
+	
 }

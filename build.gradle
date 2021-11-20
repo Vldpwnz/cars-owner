@@ -19,6 +19,7 @@ dependencies {
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.4'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
 }
 
 test {

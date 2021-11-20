@@ -8,5 +8,5 @@ import ee.hansabIT.entity.Car;
 public interface CarService {
 	
 	public Car getCarById(Long id);
-	public List<Car> getCarByNumberPlate(String numberPlate, Pageable pageble );
+	public List<Car> getCarBySearchField(String searchField, Pageable pageble );
 }

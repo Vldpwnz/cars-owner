@@ -7,7 +7,7 @@ public class CarDTO {
 	private String model;
 	private String numberPlate;
 	
-	public String getProduccer() {
+	public String getProducer() {
 		return producer;
 	}
 	public void setProducer(String producer) {
@@ -25,7 +25,6 @@ public class CarDTO {
 	public void setNumberPlate(String numberPlate) {
 		this.numberPlate = numberPlate;
 	}
-	
 	public Long getId() {
 		return id;
 	}

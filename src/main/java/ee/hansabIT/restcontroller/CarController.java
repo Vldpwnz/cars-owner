@@ -10,11 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import ee.hansabIT.dto.CarDTO;
+import ee.hansabIT.dto.*;
 import ee.hansabIT.entity.Car;
 import ee.hansabIT.service.CarService;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/cars")
 public class CarController {
 
@@ -29,13 +30,13 @@ public class CarController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<CarDTO>> getAllCars(@RequestParam("find") Optional<String> numberPlate,
+	public ResponseEntity<List<CarDTO>> getAllCars(@RequestParam("find") Optional<String> searchField,
 												   @RequestParam("sort") Optional<String> sort,
 												   @RequestParam("page") Optional<Integer> page,
-												   @RequestParam(required = false, defaultValue = "ASC") String order){
+												   @RequestParam(name = "order", required = false, defaultValue = "ASC") String order){
 		List<Car> cars = this.carService
-						.getCarByNumberPlate(numberPlate.orElse("_"),
-								PageRequest.of(page.orElse(0),10,
+						.getCarBySearchField(searchField.orElse("_"),
+								PageRequest.of(page.orElse(0),5,
 										Sort.Direction.fromString(order), sort.orElse("id")));
 		
 		if(cars.isEmpty()) {
@@ -55,14 +56,14 @@ public class CarController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<CarDTO> getCarById(@PathVariable Long id) {
+	public ResponseEntity<CarUserDTO> getCarById(@PathVariable Long id) {
 		
 		try {
 			Car car = carService.getCarById(id);
-			CarDTO carDTO = mapper.map(car, CarDTO.class);
+			CarUserDTO carUserDTO = mapper.map(car, CarUserDTO.class);
 			return ResponseEntity
 					.status(HttpStatus.OK)
-					.body(carDTO);
+					.body(carUserDTO);
 		} catch (RuntimeException e) {
 			return ResponseEntity
 					.status(HttpStatus.NO_CONTENT)

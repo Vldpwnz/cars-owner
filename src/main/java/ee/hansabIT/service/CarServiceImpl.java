@@ -35,8 +35,8 @@ public class CarServiceImpl implements CarService {
 	}
 
 	@Override
-	public List<Car> getCarByNumberPlate(String numberPlate, Pageable pageble) {
-		return carRepository.findByNumberPlate(numberPlate, pageble);
+	public List<Car> getCarBySearchField(String searchField, Pageable pageble) {
+		return carRepository.findBySearchField(searchField, pageble);
 	}
 	
 	
